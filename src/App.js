@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import MovieRow from './MovieRow';
+import MovieRow from './components/MovieRow';
+import OmdbRow from './components/OmdbRow'
 import $ from 'jquery';
 
 class App extends Component {
@@ -50,14 +51,15 @@ class App extends Component {
 
   performSearchOmdb(searchTerm) {
     console.log("Search OMDB");
-    const urlString = "http://www.omdbapi.com/?t=" + searchTerm + "&apikey=80b38af7";
+    const urlString = "http://www.omdbapi.com/?t=" + searchTerm + "&plot=full&apikey=80b38af7";
     $.ajax({
       url: urlString,
       success: (searchResults) => {
         console.log("Fetched data successfully");
         const results = searchResults; // guardo el json de resultados
         console.log(results.Title);//imprimo los titulos en la consola
-        var movieRowOMDB = <table><tr><td>{results.Title}</td><td><img src={results.Poster} /></td></tr></table>;
+        var movieRowOMDB = <OmdbRow key={results.imdbID} movie={results}/>
+        //var movieRowOMDB = <table><tr><td>{results.Title}</td><td><img src={results.Poster} /></td></tr></table>;
         this.setState({rowsOMDb: movieRowOMDB})
       },
       error:  (xhr, status, err) => {
@@ -79,18 +81,13 @@ class App extends Component {
       default:
 
     }
-    /*
-    if(this.state.selectOption === "Moviedb"){
-      this.performSearchMoviedb(searchTerm); // se debe enlazar la funcion onChange con la funcion performSearch con bind(this)
-    }
-    if(this.state.selectOption === "OMDb"){
-      this.performSearchMoviedb(searchTerm); // se debe enlazar la funcion onChange con la funcion performSearch con bind(this)
-    }*/
 
   }
 
   handleSelectChange(event){
     console.log(event.target.value);
+    this.setState({rows: ""});
+    this.setState({rowsOMDb: ""});
     this.setState({selectOption: event.target.value});
   }
 
@@ -107,8 +104,8 @@ class App extends Component {
           </tbody>
         </table>
         <select className="selectApi" name="movie_api" onChange={this.handleSelectChange.bind(this)}>
-          <option value="Moviedb">MovieDB</option>
-          <option value="OMDb">OMDb</option>
+          <option value="Moviedb">MovieDB Api</option>
+          <option value="OMDb">OMDb Api</option>
         </select>
         <input onChange={this.searchChangeHandler.bind(this)} className="inputText" type="text" placeholder="Enter text"/>
 

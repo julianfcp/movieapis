@@ -7,10 +7,23 @@
 .inputText {
   font-size: 1.5em;
   display: block;
-  width: 99%;
+  width: 30%;
   padding-top: 8;
   padding-bottom: 8;
   padding-left: 16px;
+  margin-left: 16px;
+  margin-top: 16px;
+}
+.tableRow {
+  width: 80%;
+  text-align: justify;
+  margin-left: 16px;
+  margin-top: 16px;
+  border: 1px solid #e3e3e3;
+  background-color: #fff;
+}
+.movieContent {
+  padding: 50px;
 }
 .App {
   text-align: center;
